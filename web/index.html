@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2LM &mdash; 自作ミニ言語モデル</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<!-- 背景: ガラスに屈折させる色をここで作る -->
+<div class="backdrop" aria-hidden="true">
+  <span class="blob blob-1"></span>
+  <span class="blob blob-2"></span>
+  <span class="blob blob-3"></span>
+  <span class="blob blob-4"></span>
+  <span class="grain"></span>
+</div>
+
+<div class="app">
+  <header class="topbar glass">
+    <div class="brand">
+      <span class="brand-mark"><i data-lucide="sparkles"></i></span>
+      <div class="brand-text">
+        <strong>2LM</strong>
+        <small id="model-meta">モデル情報を取得中...</small>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <button class="icon-btn" id="btn-clear" type="button" aria-label="会話をリセット" title="会話をリセット">
+        <i data-lucide="eraser"></i>
+      </button>
+      <button class="icon-btn" id="btn-settings" type="button" aria-label="生成設定" title="生成設定">
+        <i data-lucide="sliders-horizontal"></i>
+      </button>
+    </div>
+  </header>
+
+  <main class="thread" id="thread">
+    <section class="welcome" id="welcome">
+      <div class="welcome-card glass">
+        <span class="welcome-icon"><i data-lucide="message-square-dashed"></i></span>
+        <h1>ゼロから作ったミニ言語モデル</h1>
+        <p>
+          自分で書いたミニGPTです。次の1トークンを予測しているだけなので、
+          知識も正確さもありません。それでも日本語らしく喋ろうとします。
+        </p>
+        <div class="chips">
+          <button class="chip" type="button">こんにちは</button>
+          <button class="chip" type="button">おすすめの本を教えてください</button>
+          <button class="chip" type="button">AIとは何ですか？</button>
+          <button class="chip" type="button">日本の首都はどこですか？</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <form class="composer glass" id="composer" autocomplete="off">
+    <textarea id="input" rows="1" placeholder="メッセージを入力 (Enterで送信 / Shift+Enterで改行)"></textarea>
+    <button class="send-btn" id="btn-send" type="submit" aria-label="送信">
+      <i data-lucide="arrow-up"></i>
+    </button>
+  </form>
+  <p class="hint" id="hint">ブラウザで <code class="origin"></code> を開いています</p>
+</div>
+
+<!-- 生成設定モーダル -->
+<div class="modal-backdrop" id="modal-backdrop" hidden>
+  <div class="modal glass" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-header">
+      <span class="modal-header-spacer"></span>
+      <button class="icon-btn" id="modal-close" type="button" aria-label="閉じる">
+        <i data-lucide="x"></i>
+      </button>
+    </div>
+    <div class="modal-title" id="modal-title">
+      <i data-lucide="sliders-horizontal"></i>
+      <span>生成設定</span>
+    </div>
+    <div class="modal-body" id="modal-body">
+      <label class="field">
+        <span class="field-head">
+          <span>temperature<em>ランダムさ。低いと堅く、高いと崩れる</em></span>
+          <output id="out-temperature">0.80</output>
+        </span>
+        <input type="range" id="temperature" min="0.1" max="1.5" step="0.05" value="0.8">
+      </label>
+      <label class="field">
+        <span class="field-head">
+          <span>top_k<em>候補を上位kトークンに絞る</em></span>
+          <output id="out-top_k">40</output>
+        </span>
+        <input type="range" id="top_k" min="0" max="200" step="5" value="40">
+      </label>
+      <label class="field">
+        <span class="field-head">
+          <span>repetition_penalty<em>同じトークンの繰り返しを抑える</em></span>
+          <output id="out-repetition_penalty">1.15</output>
+        </span>
+        <input type="range" id="repetition_penalty" min="1" max="2" step="0.05" value="1.15">
+      </label>
+      <label class="field">
+        <span class="field-head">
+          <span>max_new_tokens<em>1回の返答で作る最大トークン数</em></span>
+          <output id="out-max_new_tokens">200</output>
+        </span>
+        <input type="range" id="max_new_tokens" min="20" max="400" step="10" value="200">
+      </label>
+      <label class="field">
+        <span class="field-head">
+          <span>history_turns<em>文脈に含める過去のやりとり数</em></span>
+          <output id="out-history_turns">2</output>
+        </span>
+        <input type="range" id="history_turns" min="0" max="6" step="1" value="2">
+      </label>
+      <div class="spec glass-inset" id="spec"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" id="modal-reset" type="button">
+        <i data-lucide="rotate-ccw"></i><span>初期値に戻す</span>
+      </button>
+      <button class="btn-primary" id="modal-apply" type="button">
+        <i data-lucide="check"></i><span>適用する</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" hidden></div>
+
+<script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js"></script>
+<script src="/static/app.js"></script>
+</body>
+</html>
