@@ -1,0 +1,107 @@
+2LM-Blackwell-GAL
+Copyright (c) 2026 hiroki-abe-58
+
+このリポジトリのコード（src/, data/, eval/, tools/, web/, server.py,
+check_env.py, runtime.py）は MIT License で提供しています。LICENSE を参照してください。
+
+本リポジトリは 2LM-MLX-GAL（Apple MLX / macOS）を PyTorch + CUDA へ移植し、
+Windows ネイティブ環境（NVIDIA Blackwell / sm_120）で再現・拡張したものです。
+データ生成の設計（話題出しと会話生成の2段階、検査の観点）は移植元と同一です。
+拡張したのは、量子化バックエンドの選定、共有GPUメモリの監視、
+および「日本語が崩れなくなる境界」の総当たり実測です。
+
+  移植元: https://github.com/hiroki-abe-58/2LM-MLX-GAL (MIT License)
+  事前学習: https://github.com/hiroki-abe-58/2LM-Blackwell (MIT License)
+
+
+================================================================================
+同梱のデータセット（data/raw/gal_line.jsonl）について
+================================================================================
+
+架空の「ギャルのLINE会話」データセットです。実在の人物・団体・会話とは
+一切関係のない、完全な合成データです。
+
+生成に用いたモデル:
+
+  Qwen/Qwen2.5-32B-Instruct-AWQ
+    https://huggingface.co/Qwen/Qwen2.5-32B-Instruct-AWQ
+    Copyright (c) Alibaba Cloud
+    Licensed under the Apache License, Version 2.0
+    量子化: AWQ INT4 (group_size 128) / 作成元 AutoAWQ
+
+Apache License 2.0 は出力の利用に条件を付けていません。したがって、
+このデータセットおよびここから学習した重み（checkpoints/gal/）の配布と
+商用利用に、生成元モデル側の制約は及びません。
+
+以下のモデルは、出力を他モデルの学習・改善に使うことを禁止または制限する
+条項があるため、意図的に使用していません（tools/license_check.py で確認）:
+
+  - meta-llama/Llama-3.3-70B-Instruct（Llama Community License）
+  - google/gemma-3-27b-it（Gemma Terms / Model Derivatives に蒸留を含む）
+  - 商用チャットAPI（利用規約が出力の学習利用を禁止）
+
+生成の条件（runs/datagen_stats.json が出典）:
+
+  - サンプリング: temperature 0.7 / top_p 0.8 / top_k 20（Qwen 公式の
+    non-thinking 側推奨値。thinking 側の 0.6/0.95/20 は使っていない）
+  - 2段階生成: ジャンル20種からモデルに話題を列挙させ、
+    「話題 × 用件 × 機嫌」の組み合わせごとに会話を書かせた
+  - 検査: data/gal/validate.py で文字種・英単語・敬語・方言・長さ・重複、
+    および <think> の混入と CRLF/BOM/ゼロ幅文字を棄却した
+
+
+================================================================================
+事前学習済みモデル（checkpoints/final/）について
+================================================================================
+
+追加学習の出発点である checkpoints/final/ は 2LM-Blackwell で学習した重みです。
+学習に使ったデータセットの出典と、加えた変更の一覧は 2LM-Blackwell の NOTICE に
+記載しています。いずれも Apache License 2.0 で、ShareAlike 条件を持たないものだけです。
+
+  OpenAssistant Conversations Dataset (OASST1 / OASST2), Apache-2.0
+  kunishou/oasst1-89k-ja, Apache-2.0
+  llm-jp/oasst2-33k-ja, Apache-2.0
+  llm-jp/magpie-sft-v1.0, Apache-2.0
+  Aratako/Magpie-Tanuki-8B-97k, Apache-2.0
+
+Apache License, Version 2.0 の全文は licenses/Apache-2.0.txt に同梱しています。
+原文: http://www.apache.org/licenses/LICENSE-2.0
+
+
+================================================================================
+トークナイザ（data/tokenizer/tokenizer.model）
+================================================================================
+
+同梱の SentencePiece モデル（unigram / 語彙 8,000）は、移植元 2LM-MLX が
+学習したものをそのまま流用しています。再学習していません。
+追加学習で語彙を作り直すとトークンIDの対応が変わり、
+事前学習した重みがすべて無意味になるためです。
+
+  https://github.com/google/sentencepiece
+  Copyright (c) Google Inc.
+  Licensed under the Apache License, Version 2.0
+
+
+================================================================================
+制作にあたって
+================================================================================
+
+このリポジトリのコードと文書は、AI コーディング支援ツールを用いて書かれています。
+
+記載しているすべての数値は、この環境（RTX 5090 32GB / Windows 11 /
+torch 2.13.0+cu130）で実際に測ったものです。出典は runs/ 配下の JSON です。
+測っていないものは「未測定」と書いています。
+
+
+================================================================================
+免責
+================================================================================
+
+本モデルの出力は、学習コーパスの統計から次のトークンを予測し続けた結果にすぎません。
+事実性・正確性は一切保証されず、実在の人物・団体・製品について
+誤った内容を断定的に出力する場合があります。
+
+同梱のデータセットは架空の会話です。特定の話し方をする人々を代表するものではなく、
+また揶揄する意図もありません。口調がデータで決まることを示す教材として作りました。
+
+出力をそのまま公開の場に掲載する場合は、機械生成物である旨を明記してください。

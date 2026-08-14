@@ -1,0 +1,6 @@
+# 記事・動画用のツール (tools/) と静的解析だけに必要なもの。
+# 学習と会話には不要。
+matplotlib==3.11.1   # tools/plot_loss.py, tools/compare_mac.py (Pillow も一緒に入る)
+pillow==12.3.0       # tools/render_terminal.py
+websockets==17.0.1   # tools/screenshot.py (DevTools Protocol)
+ruff>=0.6

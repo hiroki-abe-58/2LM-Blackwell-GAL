@@ -1,0 +1,51 @@
+__pycache__/
+*.pyc
+.venv/
+.ruff_cache/
+Thumbs.db
+desktop.ini
+
+# 生成物（学習で再現できるものはコミットしない）
+data/corpus.txt
+data/corpus.meta.json
+data/corpus_*.txt
+data/corpus_*.meta.json
+data/cache*/
+
+# data/raw/gal_line.jsonl は同梱する（読者が生成をスキップできるように）。
+# 検査前の生の出力 data/gal/raw.jsonl は追跡しない。
+data/raw/*
+!data/raw/.gitkeep
+!data/raw/gal_line.jsonl
+!data/raw/gal_line.meta.json
+data/gal/raw.jsonl
+
+# data/tokenizer/tokenizer.model は Mac 版から流用した語彙なので追跡する。
+# 再学習するとIDの対応が変わり、同梱のチェックポイントが読めなくなる。
+
+# 追加学習の重みは配布したいので final と gal だけ追跡する
+checkpoints/*
+!checkpoints/final
+!checkpoints/gal
+
+# 境界の総当たりは 20 通りぶんの重みとコーパスができる。中間物は追跡しない
+runs/sweep/
+
+# ログは絶対パスを含むので、記事の出典になるものだけ残す
+runs/*
+!runs/licensing.json
+!runs/model_survey.json
+!runs/backend_ladder.json
+!runs/datagen_stats.json
+!runs/boundary.json
+!runs/epochs.json
+!runs/lr.json
+!runs/ceiling.json
+!runs/final_pick.json
+!runs/eval_gal.json
+!runs/eval_gal_mix85.json
+!runs/gal_metrics.json
+!runs/gal_loss.csv
+
+# 記事の原稿はローカル管理（docs/images だけ公開する）
+docs/*.md

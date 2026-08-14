@@ -1,0 +1,51 @@
+# Windows ネイティブ + NVIDIA Blackwell (RTX 50 / sm_120) 用。
+#
+# torch は PyPI ではなく NVIDIA のインデックスから入れる。
+# CPU 版が入ると「no kernel image is available for execution on the device」で
+# 学習が始まらない。sm_120 は cu130 以降の wheel でないと通らない。
+#
+#   uv venv C:\LLM\.venv-blackwell --python 3.13
+#   uv pip install -r requirements.txt --extra-index-url https://download.pytorch.org/whl/cu130
+#
+# 版はすべて 2026-08 に実機で通した組み合わせに固定している。
+# 上げると動かなくなるという意味ではないが、記事の数値はこの組み合わせの実測。
+--extra-index-url https://download.pytorch.org/whl/cu130
+
+torch==2.13.0+cu130
+triton-windows==3.7.1.post27   # torch.compile 用。素の triton は Windows で動かない
+numpy==2.2.6
+safetensors==0.8.0
+sentencepiece==0.2.2   # サブワードのトークナイザ (unigram)
+
+# コーパス作成
+datasets==5.0.1
+huggingface-hub==0.36.2   # transformers 4.57 は hub 1.x を受け付けない
+
+# Web GUI
+fastapi==0.141.1
+uvicorn==0.52.3
+
+# 診断 (check_env.py)
+nvidia-ml-py==13.610.43
+
+# --- ここから下はデータ生成 (data/gal/) にだけ必要 ---------------------------
+# 学習と会話だけなら入れなくても動く。
+#
+# transformers は 4 系に固定する。5 系は AWQ の読み込みに gptqmodel を要求し、
+# gptqmodel は依存の pypcre が Windows でビルドできない (docs/notes.md 3節)。
+transformers==4.57.1
+tokenizers==0.22.2
+accelerate==1.14.0
+autoawq==0.2.9         # 4.55 で改名された PytorchGELUTanh を import する。別名で補っている
+bitsandbytes==0.50.1   # NF4 で読む場合だけ
+
+# GGUF を読む場合だけ。CUDA を有効にするには自分でビルドする必要がある。
+# 素の pip install だと CPU 版が入り、エラーは出ないまま遅くなる。
+#
+#   call "...\VC\Auxiliary\Build\vcvars64.bat"
+#   set CMAKE_ARGS=-DGGML_CUDA=on -DCMAKE_CUDA_ARCHITECTURES=120
+#   set FORCE_CMAKE=1
+#   uv pip install llama-cpp-python==0.3.34
+#
+# ビルドに約25分。--no-build-isolation は付けないこと (scikit_build_core が無いと言われる)
+# llama-cpp-python==0.3.34

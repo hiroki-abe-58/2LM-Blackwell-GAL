@@ -1,0 +1,16 @@
+# 作業ツリーの改行は Windows でも LF に固定する。
+#
+# core.autocrlf=true の環境で clone すると .py や .txt が CRLF で展開される。
+# このリポジトリは書き出しのすべてに newline="\n" を明示しており、コーパスに
+# \r が混ざると文字種の集計とトークン分割が変わって、同梱の重みと噛み合わない。
+* text=auto eol=lf
+
+# 実測ログはそのままの姿で残したいので変換の対象から外す
+runs/*.log -text
+runs/*.txt -text
+
+*.png binary
+*.safetensors binary
+*.npy binary
+*.pt binary
+*.model binary
