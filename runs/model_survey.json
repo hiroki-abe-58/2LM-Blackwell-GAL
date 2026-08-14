@@ -1,0 +1,138 @@
+{
+  "vram_gb": 32.0,
+  "max_tokens": 2048,
+  "models": [
+    {
+      "repo_id": "tokyotech-llm/Qwen3-Swallow-32B-RL-v0.2",
+      "files": 35,
+      "weight_gb": 61.02,
+      "formats": [
+        ".safetensors"
+      ],
+      "license": "apache-2.0",
+      "arch": "Qwen3ForCausalLM",
+      "layers": 64,
+      "q_heads": 64,
+      "kv_heads": 8,
+      "head_dim": 128,
+      "kv_kb_per_token": 256.0,
+      "quant": "なし"
+    },
+    {
+      "repo_id": "tokyotech-llm/Qwen3-Swallow-32B-RL-v0.2-AWQ-INT4",
+      "files": 28,
+      "weight_gb": 18.0,
+      "formats": [
+        ".safetensors"
+      ],
+      "license": "apache-2.0",
+      "arch": "Qwen3ForCausalLM",
+      "layers": 64,
+      "q_heads": 64,
+      "kv_heads": 8,
+      "head_dim": 128,
+      "kv_kb_per_token": 256.0,
+      "quant": "awq 4bit"
+    },
+    {
+      "repo_id": "tokyotech-llm/Qwen3-Swallow-30B-A3B-RL-v0.2",
+      "files": 34,
+      "weight_gb": 56.87,
+      "formats": [
+        ".safetensors"
+      ],
+      "license": "apache-2.0",
+      "arch": "Qwen3MoeForCausalLM",
+      "layers": 48,
+      "q_heads": 32,
+      "kv_heads": 4,
+      "head_dim": 128,
+      "kv_kb_per_token": 96.0,
+      "quant": "なし",
+      "experts": 128,
+      "experts_used": 8
+    },
+    {
+      "repo_id": "tokyotech-llm/Qwen3-Swallow-30B-A3B-RL-v0.2-AWQ-INT4",
+      "files": 27,
+      "weight_gb": 15.66,
+      "formats": [
+        ".safetensors"
+      ],
+      "license": "apache-2.0",
+      "arch": "Qwen3MoeForCausalLM",
+      "layers": 48,
+      "q_heads": 32,
+      "kv_heads": 4,
+      "head_dim": 128,
+      "kv_kb_per_token": 96.0,
+      "quant": "awq 4bit",
+      "experts": 128,
+      "experts_used": 8
+    },
+    {
+      "repo_id": "tokyotech-llm/Qwen3-Swallow-8B-RL-v0.2",
+      "files": 26,
+      "weight_gb": 15.26,
+      "formats": [
+        ".safetensors"
+      ],
+      "license": "apache-2.0",
+      "arch": "Qwen3ForCausalLM",
+      "layers": 36,
+      "q_heads": 32,
+      "kv_heads": 8,
+      "head_dim": 128,
+      "kv_kb_per_token": 144.0,
+      "quant": "なし"
+    },
+    {
+      "repo_id": "tokyotech-llm/Qwen3-Swallow-8B-RL-v0.2-AWQ-INT4",
+      "files": 25,
+      "weight_gb": 5.68,
+      "formats": [
+        ".safetensors"
+      ],
+      "license": "apache-2.0",
+      "arch": "Qwen3ForCausalLM",
+      "layers": 36,
+      "q_heads": 32,
+      "kv_heads": 8,
+      "head_dim": 128,
+      "kv_kb_per_token": 144.0,
+      "quant": "awq 4bit"
+    },
+    {
+      "repo_id": "Qwen/Qwen2.5-32B-Instruct-AWQ",
+      "files": 15,
+      "weight_gb": 18.0,
+      "formats": [
+        ".safetensors"
+      ],
+      "license": "apache-2.0",
+      "arch": "Qwen2ForCausalLM",
+      "layers": 64,
+      "q_heads": 40,
+      "kv_heads": 8,
+      "head_dim": 128,
+      "kv_kb_per_token": 256.0,
+      "quant": "awq 4bit"
+    },
+    {
+      "repo_id": "Qwen/Qwen3-8B-AWQ",
+      "files": 12,
+      "weight_gb": 5.68,
+      "formats": [
+        ".safetensors"
+      ],
+      "license": "apache-2.0",
+      "arch": "Qwen3ForCausalLM",
+      "layers": 36,
+      "q_heads": 32,
+      "kv_heads": 8,
+      "head_dim": 128,
+      "kv_kb_per_token": 144.0,
+      "quant": "awq 4bit"
+    }
+  ]
+}

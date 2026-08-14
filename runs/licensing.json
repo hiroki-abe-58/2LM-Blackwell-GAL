@@ -1,0 +1,98 @@
+{
+  "models": [
+    {
+      "repo_id": "tokyotech-llm/Qwen3-Swallow-32B-RL-v0.2",
+      "license": "apache-2.0",
+      "license_files": [
+        "LICENSE"
+      ],
+      "keyword_hits": {
+        "derivative": 18,
+        "train": 1
+      },
+      "excerpts": [],
+      "verdict": "使える",
+      "error": null
+    },
+    {
+      "repo_id": "tokyotech-llm/Qwen3-Swallow-8B-RL-v0.2",
+      "license": "apache-2.0",
+      "license_files": [
+        "LICENSE"
+      ],
+      "keyword_hits": {
+        "derivative": 18,
+        "train": 1
+      },
+      "excerpts": [],
+      "verdict": "使える",
+      "error": null
+    },
+    {
+      "repo_id": "Qwen/Qwen2.5-32B-Instruct",
+      "license": "apache-2.0",
+      "license_files": [
+        "LICENSE"
+      ],
+      "keyword_hits": {
+        "derivative": 18
+      },
+      "excerpts": [],
+      "verdict": "使える",
+      "error": null
+    },
+    {
+      "repo_id": "Qwen/Qwen3-8B",
+      "license": "apache-2.0",
+      "license_files": [
+        "LICENSE"
+      ],
+      "keyword_hits": {
+        "derivative": 18
+      },
+      "excerpts": [],
+      "verdict": "使える",
+      "error": null
+    }
+  ],
+  "rejected": [
+    {
+      "name": "meta-llama/Llama-3.3-70B-Instruct",
+      "reason": "Llama Community License。出力を他モデルの改善に使うことを明文で禁止"
+    },
+    {
+      "name": "google/gemma-3-27b-it",
+      "reason": "Gemma Terms。Model Derivatives の定義に蒸留を含む"
+    },
+    {
+      "name": "商用チャットAPI (クローズド)",
+      "reason": "利用規約が出力の学習利用を禁止。規模の例外は書かれていない"
+    }
+  ],
+  "datasets": [
+    {
+      "repo_id": "kunishou/oasst1-89k-ja",
+      "license": "apache-2.0",
+      "note": null,
+      "error": null
+    },
+    {
+      "repo_id": "llm-jp/oasst2-33k-ja",
+      "license": "apache-2.0",
+      "note": null,
+      "error": null
+    },
+    {
+      "repo_id": "llm-jp/magpie-sft-v1.0",
+      "license": "apache-2.0",
+      "note": "合成データ。生成元は Apache-2.0 のモデル",
+      "error": null
+    },
+    {
+      "repo_id": "Aratako/Magpie-Tanuki-8B-97k",
+      "license": "apache-2.0",
+      "note": "合成データ。生成元 Tanuki-8B のライセンスを遡る対象",
+      "error": null
+    }
+  ]
+}

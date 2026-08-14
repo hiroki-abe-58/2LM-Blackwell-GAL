@@ -1,0 +1,31 @@
+{
+  "raw_pairs": 7496,
+  "kept": 6879,
+  "reject_rate": 0.0823,
+  "rejections": {
+    "方言": 258,
+    "英単語": 181,
+    "返答長": 6,
+    "ユーザー長": 90,
+    "返答重複": 25,
+    "文字種": 52,
+    "敬語": 3,
+    "同字連続": 1,
+    "重複": 1
+  },
+  "topics": 466,
+  "conversations": 6879,
+  "characters": 262394,
+  "unique_chars": 1542,
+  "avg_user": 16.11367931385376,
+  "avg_assistant": 22.03052769297863,
+  "model": "Qwen/Qwen2.5-32B-Instruct-AWQ",
+  "quant": "awq",
+  "sampling": "temperature 0.7 / top_p 0.8 / top_k 20 / seed 0",
+  "batch_size": 32,
+  "minutes": 36.7,
+  "pairs_per_min": 204,
+  "peak_vram_gb": 24.2,
+  "peak_shared_gb": 0.01,
+  "think_leaks": 0
+}

@@ -1,0 +1,195 @@
+[
+  {
+    "at": "2026-08-14T22:35:38",
+    "rung": "awq",
+    "target": "tokyotech-llm/Qwen3-Swallow-8B-RL-v0.2-AWQ-INT4",
+    "batch": 2,
+    "max_new_tokens": 256,
+    "sampling": "temp 0.7 / top_p 0.8 / top_k 20 / rep_pen 1.0 / seed 1234",
+    "ok": false,
+    "error": "ImportError: Loading an AWQ quantized model requires gptqmodel. Please install it with `pip install gptqmodel`",
+    "traceback": "2LM-Blackwell-GAL\\tools\\backend_ladder.py\", line 113, in main\n    backend = load_backend(args.rung, target, sampling=sampling)\n  File \"C:\\LLM\\2LM-Blackwell-GAL\\data\\gal\\backends.py\", line 255, in load_backend\n    return TransformersBackend(target, quant=kind, sampling=sampling, **kwargs)\n  File \"C:\\LLM\\2LM-Blackwell-GAL\\data\\gal\\backends.py\", line 118, in __init__\n    self.model = AutoModelForCausalLM.from_pretrained(repo_id, **kwargs)\n                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^\n  File \"C:\\LLM\\.venv-blackwell\\Lib\\site-packages\\transformers\\models\\auto\\auto_factory.py\", line 402, in from_pretrained\n    return model_class.from_pretrained(\n           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^\n        pretrained_model_name_or_path, *model_args, config=config, **hub_kwargs, **kwargs\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\n  File \"C:\\LLM\\.venv-blackwell\\Lib\\site-packages\\transformers\\modeling_utils.py\", line 4225, in from_pretrained\n    hf_quantizer, config, device_map = get_hf_quantizer(\n                                       ~~~~~~~~~~~~~~~~^\n        config, quantization_config, device_map, weights_only, user_agent\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\n  File \"C:\\LLM\\.venv-blackwell\\Lib\\site-packages\\transformers\\quantizers\\auto.py\", line 354, in get_hf_quantizer\n    hf_quantizer.validate_environment(\n    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^\n        device_map=device_map,\n        ^^^^^^^^^^^^^^^^^^^^^^\n        weights_only=weights_only,\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\n  File \"C:\\LLM\\.venv-blackwell\\Lib\\site-packages\\transformers\\quantizers\\quantizer_awq.py\", line 50, in validate_environment\n    raise ImportError(\n        \"Loading an AWQ quantized model requires gptqmodel. Please install it with `pip install gptqmodel`\"\n    )\nImportError: Loading an AWQ quantized model requires gptqmodel. Please install it with `pip install gptqmodel`\n"
+  },
+  {
+    "at": "2026-08-14T22:38:58",
+    "rung": "awq",
+    "target": "tokyotech-llm/Qwen3-Swallow-8B-RL-v0.2-AWQ-INT4",
+    "batch": 2,
+    "max_new_tokens": 256,
+    "sampling": "temp 0.7 / top_p 0.8 / top_k 20 / rep_pen 1.0 / seed 1234",
+    "ok": false,
+    "error": "ImportError: cannot import name 'PytorchGELUTanh' from 'transformers.activations' (C:\\LLM\\.venv-blackwell\\Lib\\site-packages\\transformers\\activations.py)",
+    "traceback": "    ^^^^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\n  File \"C:\\LLM\\.venv-blackwell\\Lib\\site-packages\\transformers\\quantizers\\base.py\", line 225, in preprocess_model\n    return self._process_model_before_weight_loading(model, **kwargs)\n           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^\n  File \"C:\\LLM\\.venv-blackwell\\Lib\\site-packages\\transformers\\quantizers\\quantizer_awq.py\", line 119, in _process_model_before_weight_loading\n    model, has_been_replaced = replace_with_awq_linear(\n                               ~~~~~~~~~~~~~~~~~~~~~~~^\n        model, quantization_config=self.quantization_config, modules_to_not_convert=self.modules_to_not_convert\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\n  File \"C:\\LLM\\.venv-blackwell\\Lib\\site-packages\\transformers\\integrations\\awq.py\", line 134, in replace_with_awq_linear\n    from awq.modules.linear.gemm import WQLinear_GEMM\n  File \"C:\\LLM\\.venv-blackwell\\Lib\\site-packages\\awq\\__init__.py\", line 24, in <module>\n    from awq.models.auto import AutoAWQForCausalLM\n  File \"C:\\LLM\\.venv-blackwell\\Lib\\site-packages\\awq\\models\\__init__.py\", line 1, in <module>\n    from .mpt import MptAWQForCausalLM\n  File \"C:\\LLM\\.venv-blackwell\\Lib\\site-packages\\awq\\models\\mpt.py\", line 1, in <module>\n    from .base import BaseAWQForCausalLM\n  File \"C:\\LLM\\.venv-blackwell\\Lib\\site-packages\\awq\\models\\base.py\", line 49, in <module>\n    from awq.quantize.quantizer import AwqQuantizer\n  File \"C:\\LLM\\.venv-blackwell\\Lib\\site-packages\\awq\\quantize\\quantizer.py\", line 11, in <module>\n    from awq.quantize.scale import apply_scale, apply_clip\n  File \"C:\\LLM\\.venv-blackwell\\Lib\\site-packages\\awq\\quantize\\scale.py\", line 12, in <module>\n    from transformers.activations import NewGELUActivation, PytorchGELUTanh, GELUActivation\nImportError: cannot import name 'PytorchGELUTanh' from 'transformers.activations' (C:\\LLM\\.venv-blackwell\\Lib\\site-packages\\transformers\\activations.py)\n"
+  },
+  {
+    "at": "2026-08-14T22:55:51",
+    "rung": "awq",
+    "target": "Qwen/Qwen3-8B-AWQ",
+    "batch": 2,
+    "max_new_tokens": 256,
+    "sampling": "temp 0.7 / top_p 0.8 / top_k 20 / rep_pen 1.0 / seed 1234",
+    "backend": "transformers + awq",
+    "detail": "Qwen/Qwen3-8B-AWQ / awq / 重み 5.7 GB / 読み込み 159.0秒 / 補った箇所: transformers.activations.PytorchGELUTanh を GELUTanh で補った",
+    "seconds": 14.7,
+    "completion_tokens": 287,
+    "tokens_per_sec": 19.5,
+    "peak_vram_gb": 5.82,
+    "shared_spill_gb": 0.084,
+    "notes": [],
+    "think_leaked": false,
+    "sample": [
+      "もちろんです！以下は「ラーメン」についての、友達同士のLINEのやりとりを3通り作成したものです。1行に1往復で、全角の縦棒｜で区切っています。\n\n---\n\n1.  \n今日の昼はラーメン食べたいな｜おっしゃるな！どこ行く？  \n近所の「ラーメン亭」行くよ｜おすすめは？  \nスープの味が濃くて美味しいよ｜それなら私も行く！  \n\n2.  \n昨日ラーメン食べたんだけど、スープがちょっと薄いな｜なんで？  \nそのラーメン屋行ったことあるけど、いつも濃いから変かも｜そうか、最近味変わったの？  \nうん、最近は薄めにしているらしい｜じゃあまた一緒に行こう！\n\n3.  \n今週末、ラーメン食べに行こうよ！｜いいね！どこにする？  \n新しいお店があるって聞いたから、そっちに行こう｜おすすめのメニューある？  \nラーメンにチャーハンもあるし、スープの種類も選べるんだって｜楽しみだ！  \n\n--- \n\nどうぞ",
+      "アルバイトの給与  \nアルバイトの時間  \nアルバイトの種類  \nアルバイトの経験  \nアルバイトの求人"
+    ],
+    "ok": true
+  },
+  {
+    "at": "2026-08-14T22:56:54",
+    "rung": "awq",
+    "target": "Qwen/Qwen3-8B-AWQ",
+    "batch": 2,
+    "max_new_tokens": 256,
+    "sampling": "temp 0.7 / top_p 0.8 / top_k 20 / rep_pen 1.0 / seed 1234",
+    "backend": "transformers + awq",
+    "detail": "Qwen/Qwen3-8B-AWQ / awq / 重み 5.7 GB / 読み込み 196.8秒 / 補った箇所: transformers.activations.PytorchGELUTanh を GELUTanh で補った",
+    "seconds": 17.66,
+    "completion_tokens": 287,
+    "tokens_per_sec": 16.3,
+    "peak_vram_gb": 5.82,
+    "shared_spill_gb": 0.084,
+    "notes": [],
+    "think_leaked": false,
+    "sample": [
+      "もちろんです！以下は「ラーメン」についての、友達同士のLINEのやりとりを3通り作成したものです。1行に1往復で、全角の縦棒｜で区切っています。\n\n---\n\n1.  \n今日の昼はラーメン食べたいな｜おっしゃるな！どこ行く？  \n近所の「ラーメン亭」行くよ｜おすすめは？  \nスープの味が濃くて美味しいよ｜それなら私も行く！  \n\n2.  \n昨日ラーメン食べたんだけど、スープがちょっと薄いな｜なんで？  \nそのラーメン屋さん、最近味変したらしい｜へぇ、それならちょっと違うかも  \nでも麺は美味しかったよ｜それならまた行くかも！\n\n3.  \n今週はラーメンを3回食べたよ｜え？それだけ？  \nいや、毎日違うお店で食べてるんだ｜ほんと？それすごい！  \n私ももっと食べたいな｜じゃあ次は一緒に行く？  \nもちろん行く！楽しみにしてるよ｜うれしいな！\n\n--- \n\nどうぞよろしくお願いします！必要に応じ",
+      "アルバイトの給与  \nアルバイトの時間  \nアルバイトの種類  \nアルバイトの経験  \nアルバイトの求人"
+    ],
+    "ok": true
+  },
+  {
+    "at": "2026-08-14T23:46:26",
+    "rung": "awq",
+    "target": "Qwen/Qwen2.5-32B-Instruct-AWQ",
+    "batch": 8,
+    "max_new_tokens": 256,
+    "sampling": "temp 0.7 / top_p 0.8 / top_k 20 / rep_pen 1.0 / seed 1234",
+    "ok": false,
+    "error": "ModuleNotFoundError: No module named 'pcre'",
+    "traceback": "AutoModelForCausalLM.from_pretrained(repo_id, **kwargs)\n                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^\n  File \"C:\\LLM\\.venv-blackwell\\Lib\\site-packages\\transformers\\models\\auto\\auto_factory.py\", line 402, in from_pretrained\n    return model_class.from_pretrained(\n           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^\n        pretrained_model_name_or_path, *model_args, config=config, **hub_kwargs, **kwargs\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\n  File \"C:\\LLM\\.venv-blackwell\\Lib\\site-packages\\transformers\\modeling_utils.py\", line 4309, in from_pretrained\n    hf_quantizer.preprocess_model(\n    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^\n        model=model,\n        ^^^^^^^^^^^^\n    ...<3 lines>...\n        use_kernels=use_kernels,\n        ^^^^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\n  File \"C:\\LLM\\.venv-blackwell\\Lib\\site-packages\\transformers\\quantizers\\base.py\", line 171, in preprocess_model\n    self._process_model_before_weight_loading(model, **kwargs)\n    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^\n  File \"C:\\LLM\\.venv-blackwell\\Lib\\site-packages\\transformers\\quantizers\\quantizer_awq.py\", line 74, in _process_model_before_weight_loading\n    model = replace_with_awq_linear(\n        model,\n    ...<2 lines>...\n        device_map=kwargs.get(\"device_map\"),\n    )\n  File \"C:\\LLM\\.venv-blackwell\\Lib\\site-packages\\transformers\\integrations\\awq.py\", line 76, in replace_with_awq_linear\n    from gptqmodel.quantization import METHOD\n  File \"C:\\LLM\\.venv-blackwell\\Lib\\site-packages\\gptqmodel\\__init__.py\", line 12, in <module>\n    from .utils import _MONKEY_PATCH_LOCK  # noqa: E402\n    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\LLM\\.venv-blackwell\\Lib\\site-packages\\gptqmodel\\utils\\__init__.py\", line 10, in <module>\n    from .logger import setup_logger\n  File \"C:\\LLM\\.venv-blackwell\\Lib\\site-packages\\gptqmodel\\utils\\logger.py\", line 15, in <module>\n    import pcre\nModuleNotFoundError: No module named 'pcre'\n"
+  },
+  {
+    "at": "2026-08-14T23:50:33",
+    "rung": "awq",
+    "target": "Qwen/Qwen2.5-32B-Instruct-AWQ",
+    "batch": 8,
+    "max_new_tokens": 256,
+    "sampling": "temp 0.7 / top_p 0.8 / top_k 20 / rep_pen 1.0 / seed 1234",
+    "backend": "transformers + awq",
+    "detail": "Qwen/Qwen2.5-32B-Instruct-AWQ / awq / 重み 18.0 GB / 読み込み 13.4秒 / 補った箇所: transformers.activations.PytorchGELUTanh を GELUTanh で補った",
+    "seconds": 24.49,
+    "completion_tokens": 1058,
+    "tokens_per_sec": 43.2,
+    "peak_vram_gb": 18.82,
+    "shared_spill_gb": 0.084,
+    "notes": [],
+    "think_leaked": false,
+    "sample": [
+      "もちろんです。以下に3通りのやりとりを提案します。\n\n1.  \nラーメン好き？｜うん、めっちゃ好き！｜今ラーメン食いたいな｜どこ行く？｜中華街のあの店どう？｜ああ、最高！行く！  \n\n2.  \n今日の昼はラーメんだ！｜どこ行くの？｜いつもと違うとこ行くよ｜どこ？｜ネットで見つけた新店｜どんなラーメン？｜醤油ラーメンらしい｜楽しみだね  \n\n3.  \nラーメン食ったことない人いるの？｜いるいる、知ってる子がいるよ｜どう思うの？｜全然知らないから興味あるみたい｜じゃあ誘ってみる？｜うーん、誘ってみようか",
+      "1. アルバイトの種類と特徴\n2. 学生のアルバイト事情\n3. アルバイトの時給と最低賃金\n4. アルバイトの労働条件と権利\n5. 正社員とアルバイトの違い"
+    ],
+    "ok": true
+  },
+  {
+    "at": "2026-08-14T23:52:16",
+    "rung": "awq",
+    "target": "Qwen/Qwen2.5-32B-Instruct-AWQ",
+    "batch": 24,
+    "max_new_tokens": 256,
+    "sampling": "temp 0.7 / top_p 0.8 / top_k 20 / rep_pen 1.0 / seed 1234",
+    "backend": "transformers + awq",
+    "detail": "Qwen/Qwen2.5-32B-Instruct-AWQ / awq / 重み 18.0 GB / 読み込み 12.6秒 / 補った箇所: transformers.activations.PytorchGELUTanh を GELUTanh で補った",
+    "seconds": 25.4,
+    "completion_tokens": 3157,
+    "tokens_per_sec": 124.3,
+    "peak_vram_gb": 20.25,
+    "shared_spill_gb": 0.084,
+    "notes": [],
+    "think_leaked": false,
+    "sample": [
+      "もちろんです。以下、3通りの「ラーメン」に関する友達同士のLINEのやりとりを全角の縦棒で区切って作成しました。\n\nとても美味しいラーメンの店を見つけた！｜ええ！どこ？今度連れてって！\n｜ラーメン大好き！今度一緒に食べに行こうよ！｜もちろん！いつでも誘ってください！\n昨日のラーメン、最高だったよ！｜本当？また行きたいな〜\n｜次は違う店に行ってみようよ！｜うん、いいね！おすすめある？\n\nラーメンの日だよ！｜本当だ！ラーメン食べよう！\n｜何を食べようか迷うな〜｜そうだね、迷うよね。迷ったら醤油ラーメンだ！\nラーメンの日はラーメンを食べるのがルールだよ！｜わかった！今から行く！\n｜何を食べようか迷うけど、あなたに任せる！｜任せてくれたの？それなら迷わず大盛りの味玉ラーメンだね！",
+      "学生の副業\n時間の柔軟性\n職種の多様性\n社会経験の積み方\n税金と社会保険の扱い"
+    ],
+    "ok": true
+  },
+  {
+    "at": "2026-08-14T23:54:33",
+    "rung": "awq",
+    "target": "Qwen/Qwen2.5-32B-Instruct-AWQ",
+    "batch": 64,
+    "max_new_tokens": 256,
+    "sampling": "temp 0.7 / top_p 0.8 / top_k 20 / rep_pen 1.0 / seed 1234",
+    "backend": "transformers + awq",
+    "detail": "Qwen/Qwen2.5-32B-Instruct-AWQ / awq / 重み 18.0 GB / 読み込み 12.6秒 / 補った箇所: transformers.activations.PytorchGELUTanh を GELUTanh で補った",
+    "seconds": 30.28,
+    "completion_tokens": 8187,
+    "tokens_per_sec": 270.3,
+    "peak_vram_gb": 23.85,
+    "shared_spill_gb": 0.084,
+    "notes": [],
+    "think_leaked": false,
+    "sample": [
+      "もちろんです。以下、3つのパターンのLINEのやりとりを作成しました。\n\n1.  \nラーメン食べたいな｜うん、私も！どこ行く？  \nいつも行くとんこつ派か、しょうゆ派？｜しょうゆ派だよ。今日はしょうゆにしようぜ。  \nよし、今から行くか？｜うーん、ちょっと待って、今から行ける？  \n\n2.  \n最近のラーメンは高級化してるよね｜うん、確かに。でも昔ながらのラーメンも捨てがたいよね  \nでも、高級ラーメンもたまには食べたいよね｜そうだね、特別な日に食べると美味しいよね  \nじゃあ、次の休みに高級ラーメン食べに行こう｜うん、楽しみだね！\n\n3.  \nラーメン屋の新メニュー出たらしいよ｜へぇ〜、どんなの？  \n塩ラーメンらしいよ｜塩ラーメンかぁ、興味ある！  \n今度、一緒に食べに行こう｜うん、楽しみだよ！",
+      "1. アルバイトの時給相場\n2. 学生のアルバイト事情\n3. アルバイトの税金対策\n4. 正社員とアルバイトの権利の違い\n5. アルバイト経験の就職活動での活用方法"
+    ],
+    "ok": true
+  },
+  {
+    "at": "2026-08-15T00:00:35",
+    "rung": "gguf",
+    "target": "E:\\hf_cache\\hub\\models--Qwen--Qwen3-8B-GGUF\\snapshots\\7c41481f57cb95916b40956ab2f0b139b296d974\\Qwen3-8B-Q4_K_M.gguf",
+    "batch": 8,
+    "max_new_tokens": 256,
+    "sampling": "temp 0.7 / top_p 0.8 / top_k 20 / rep_pen 1.0 / seed 1234",
+    "backend": "llama-cpp-python + GGUF",
+    "detail": "E:\\hf_cache\\hub\\models--Qwen--Qwen3-8B-GGUF\\snapshots\\7c41481f57cb95916b40956ab2f0b139b296d974\\Qwen3-8B-Q4_K_M.gguf / GPU オフロードあり / 読み込み 2.4秒",
+    "load_shared_gb": 0.104,
+    "seconds": 10.98,
+    "completion_tokens": 2018,
+    "tokens_per_sec": 183.8,
+    "peak_vram_gb": 0.0,
+    "shared_spill_gb": 0.002,
+    "notes": [
+      "逐次実行 (バッチAPIが無い)"
+    ],
+    "think_leaked": true,
+    "sample": [
+      "<think>\nOkay, the user wants me to create three different LINE conversations between friends about ramen, with each line being a back-and-forth exchange. Each line should be in full-width characters and separated by a vertical bar |. Let me start by understanding the requirements.\n\nFirst, I need to make sure each conversation is distinct. Maybe different scenarios or contexts. For example, one cou",
+      "<think>\nOkay, the user is asking for five specific topics related to \"アルバイト\" (part-time job). Let me think about what aspects of part-time work are commonly discussed. First, there's the topic of job hunting for part-time positions, which is a common scenario for students or people looking for temporary work. Then, the working hours and schedules are important, especially for those balancing work "
+    ],
+    "ok": true
+  },
+  {
+    "at": "2026-08-15T00:02:27",
+    "rung": "gguf",
+    "target": "E:\\hf_cache\\hub\\models--Qwen--Qwen3-8B-GGUF\\snapshots\\7c41481f57cb95916b40956ab2f0b139b296d974\\Qwen3-8B-Q4_K_M.gguf",
+    "batch": 8,
+    "max_new_tokens": 256,
+    "sampling": "temp 0.7 / top_p 0.8 / top_k 20 / rep_pen 1.0 / seed 1234",
+    "backend": "llama-cpp-python + GGUF",
+    "detail": "E:\\hf_cache\\hub\\models--Qwen--Qwen3-8B-GGUF\\snapshots\\7c41481f57cb95916b40956ab2f0b139b296d974\\Qwen3-8B-Q4_K_M.gguf / GPU オフロードあり / 読み込み 2.3秒 / テンプレートは Qwen/Qwen3-8B-AWQ から (enable_thinking=False)",
+    "load_shared_gb": 0.104,
+    "seconds": 5.85,
+    "completion_tokens": 1136,
+    "tokens_per_sec": 194.2,
+    "peak_vram_gb": 0.0,
+    "shared_spill_gb": 0.002,
+    "notes": [
+      "逐次実行 (バッチAPIが無い)"
+    ],
+    "think_leaked": false,
+    "sample": [
+      "もちろん！以下は「ラーメン」について、友達同士のLINEのやりとりを3通り作成しました。1行に1往復で、全角の縦棒｜で区切っています。\n\n---\n\n1.  \n友達A：今日の昼はラーメン食べた？｜友達B：うん！豚骨のスープで超美味しかった！  \n友達A：私も今度行こうと思ってた！｜友達B：おすすめの店ある？  \n友達A：あそこはちょっと遠いけど、ラーメンが美味しいから行く価値あり！｜友達B：なるほど！また教えてね！\n\n---\n\n2.  \n友達A：最近、ラーメンの話ばっかりしてるな～｜友達B：ああ、最近はラーメンが美味しいからね！  \n友達A：今日はどこ行く？｜友達B：近所のラーメン屋さんで、チャーシューが絶品らしい！  \n友達A：じゃあ、いつか一緒にでも？｜友達B：うん、いつかは絶対行くよ！\n\n---\n\n3.",
+      "アルバイトの給与の計算方法  \nアルバイトの時間帯による報酬の違い  \nアルバイトの求人情報を確認する方法  \nアルバイトで働く際の服装のマナー  \nアルバイトと正社員の違い"
+    ],
+    "ok": true
+  }
+]

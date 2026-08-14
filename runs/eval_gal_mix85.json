@@ -1,0 +1,241 @@
+{
+  "tag": "gal_mix85",
+  "ckpt": "runs\\sweep\\ck_6879_85_0.001",
+  "bits_per_char": 4.904,
+  "repetition_rate": 0.0,
+  "topic_rate": 0.0,
+  "broken_rate": 0.0,
+  "avg_reply_len": 16.2,
+  "sampling": {
+    "temperature": 0.8,
+    "top_k": 40,
+    "repetition_penalty": 1.15,
+    "seed": 777
+  },
+  "results": [
+    {
+      "id": "greet_1",
+      "category": "挨拶",
+      "turns": [
+        "こんにちは"
+      ],
+      "reply": "うーん、うちも眠くらんないよ。",
+      "repetition": false,
+      "broken": false,
+      "keyword_hit": null
+    },
+    {
+      "id": "greet_2",
+      "category": "挨拶",
+      "turns": [
+        "おはようございます"
+      ],
+      "reply": "うーん、でも、でも、うちも寝たいなばったんだけど",
+      "repetition": false,
+      "broken": false,
+      "keyword_hit": null
+    },
+    {
+      "id": "greet_3",
+      "category": "挨拶",
+      "turns": [
+        "元気ですか"
+      ],
+      "reply": "うーん、でも行きたい",
+      "repetition": false,
+      "broken": false,
+      "keyword_hit": null
+    },
+    {
+      "id": "greet_4",
+      "category": "挨拶",
+      "turns": [
+        "はじめまして"
+      ],
+      "reply": "うちは腹がりもんないやまに取って",
+      "repetition": false,
+      "broken": false,
+      "keyword_hit": null
+    },
+    {
+      "id": "fact_1",
+      "category": "事実質問",
+      "turns": [
+        "日本の首都はどこですか"
+      ],
+      "reply": "うちは、パン検査はいいの？",
+      "repetition": false,
+      "broken": false,
+      "keyword_hit": false
+    },
+    {
+      "id": "fact_2",
+      "category": "事実質問",
+      "turns": [
+        "猫について教えてください"
+      ],
+      "reply": "うーん、パンは無理だわったらじで…",
+      "repetition": false,
+      "broken": false,
+      "keyword_hit": false
+    },
+    {
+      "id": "fact_3",
+      "category": "事実質問",
+      "turns": [
+        "プログラミングとは何ですか"
+      ],
+      "reply": "うちゃいよね〜、やんな…",
+      "repetition": false,
+      "broken": false,
+      "keyword_hit": false
+    },
+    {
+      "id": "fact_4",
+      "category": "事実質問",
+      "turns": [
+        "富士山の高さを知っていますか"
+      ],
+      "reply": "うん、うらしいよ！",
+      "repetition": false,
+      "broken": false,
+      "keyword_hit": false
+    },
+    {
+      "id": "emo_1",
+      "category": "相談・感情",
+      "turns": [
+        "最近仕事がうまくいかなくて落ち込んでいます"
+      ],
+      "reply": "うちゃいにのがよくわ、寝てる？",
+      "repetition": false,
+      "broken": false,
+      "keyword_hit": false
+    },
+    {
+      "id": "emo_2",
+      "category": "相談・感情",
+      "turns": [
+        "友達と喧嘩してしまいました"
+      ],
+      "reply": "うちゃいよ！",
+      "repetition": false,
+      "broken": false,
+      "keyword_hit": false
+    },
+    {
+      "id": "emo_3",
+      "category": "相談・感情",
+      "turns": [
+        "疲れました"
+      ],
+      "reply": "うらわっちもお腹減いって、みんながるよね",
+      "repetition": false,
+      "broken": false,
+      "keyword_hit": false
+    },
+    {
+      "id": "emo_4",
+      "category": "相談・感情",
+      "turns": [
+        "ありがとうございます"
+      ],
+      "reply": "うーん、うち、全然悪そうなかない！う〜",
+      "repetition": false,
+      "broken": false,
+      "keyword_hit": null
+    },
+    {
+      "id": "inst_1",
+      "category": "指示",
+      "turns": [
+        "おすすめの本を3つ挙げてください"
+      ],
+      "reply": "うーん、そのことも？",
+      "repetition": false,
+      "broken": false,
+      "keyword_hit": false
+    },
+    {
+      "id": "inst_2",
+      "category": "指示",
+      "turns": [
+        "短く自己紹介してください"
+      ],
+      "reply": "でもスロDト・ この問題や、アメリカは一質問が大事」です。",
+      "repetition": false,
+      "broken": false,
+      "keyword_hit": false
+    },
+    {
+      "id": "inst_3",
+      "category": "指示",
+      "turns": [
+        "予定を立てるコツを教えてください"
+      ],
+      "reply": "うー、お腹すごは腹空ってるかも",
+      "repetition": false,
+      "broken": false,
+      "keyword_hit": false
+    },
+    {
+      "id": "inst_4",
+      "category": "指示",
+      "turns": [
+        "今日はとても良い天気なので散歩に行きました。これを短く言い換えてください"
+      ],
+      "reply": "うーん、あなたはつけたいって。",
+      "repetition": false,
+      "broken": false,
+      "keyword_hit": false
+    },
+    {
+      "id": "ctx_1",
+      "category": "2ターン目",
+      "turns": [
+        "猫を飼っています",
+        "名前は何がいいと思いますか"
+      ],
+      "reply": "もちろんです、それはアリだよ",
+      "repetition": false,
+      "broken": false,
+      "keyword_hit": false
+    },
+    {
+      "id": "ctx_2",
+      "category": "2ターン目",
+      "turns": [
+        "東京に住んでいます",
+        "おすすめの場所はありますか"
+      ],
+      "reply": "うち、でもそれ食べたらめてるの？",
+      "repetition": false,
+      "broken": false,
+      "keyword_hit": false
+    },
+    {
+      "id": "ctx_3",
+      "category": "2ターン目",
+      "turns": [
+        "プログラミングを勉強しています",
+        "何から始めればいいですか"
+      ],
+      "reply": "うーん、うちゃえー、でも腹すぐなる？",
+      "repetition": false,
+      "broken": false,
+      "keyword_hit": false
+    },
+    {
+      "id": "ctx_4",
+      "category": "2ターン目",
+      "turns": [
+        "昨日映画を見ました",
+        "どう思いますか"
+      ],
+      "reply": "うん、今からさそう… でもはまず腹減ってるかも楽しいの家に会わ…",
+      "repetition": false,
+      "broken": false,
+      "keyword_hit": false
+    }
+  ]
+}

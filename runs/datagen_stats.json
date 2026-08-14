@@ -1,0 +1,16 @@
+{
+  "model": "Qwen/Qwen2.5-32B-Instruct-AWQ",
+  "quant": "awq",
+  "sampling": "temperature 0.7 / top_p 0.8 / top_k 20 / rep_pen 1.05 / seed 0 (non-thinking 側の推奨値)",
+  "batch_size": 32,
+  "pairs_per_request": 6,
+  "combos_total": 22600,
+  "combos_done": 2432,
+  "raw_pairs": 7496,
+  "minutes": 36.7,
+  "pairs_per_min": 204,
+  "peak_vram_gb": 24.2,
+  "peak_shared_gb": 0.01,
+  "think_leaks": 0,
+  "note": "組み合わせは 22,600 件あるが、必要な会話数に達した時点で人間が打ち切った。共有GPUメモリは 36.7 分を通して +0.01GB のまま (こぼれなし)。"
+}
