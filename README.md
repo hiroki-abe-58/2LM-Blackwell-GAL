@@ -38,7 +38,7 @@ Apple Silicon / MLX 版 [2LM-MLX-GAL](https://github.com/hiroki-abe-58/2LM-MLX-G
 | 環境診断（最初にこれ） | `python check_env.py` |
 | ライセンス点検（データを作る前に） | `python tools\license_check.py --save runs\licensing.json` |
 | KV キャッシュの必要量を計算（DL 前に） | `python tools\model_survey.py` |
-| バックエンドのはしごを検証 | `python tools\backend_ladder.py --rung 1` |
+| バックエンドのはしごを検証 | `python tools\backend_ladder.py --rung awq` |
 | バッチサイズを決める | `python data\gal\generate.py --stage calibrate` |
 | データ生成（3段） | `--stage topics` → `--stage pairs` → `--stage build` |
 | 追加学習 | `python src\train.py --init-from checkpoints\final ...` |
@@ -113,10 +113,10 @@ Hugging Face からライセンス本文を取得し、`output` / `distill` / `i
 ## 2. 32B を落とす前に、8B で通り道を確かめる
 
 ```powershell
-python tools\model_survey.py                 # config.json だけ見て KV を計算
-python tools\backend_ladder.py --rung 1      # transformers + AWQ
-python tools\backend_ladder.py --rung 2      # llama-cpp-python + GGUF
-python tools\backend_ladder.py --rung 3      # bitsandbytes NF4
+python tools\model_survey.py                     # config.json だけ見て KV を計算
+python tools\backend_ladder.py --rung awq        # 1段目: transformers + AWQ
+python tools\backend_ladder.py --rung gguf       # 2段目: llama-cpp-python + GGUF
+python tools\backend_ladder.py --rung nf4        # 3段目: bitsandbytes NF4
 ```
 
 Mac 版では 17GB のモデルを2回落としました。載るかを確かめずに落としたためです。
@@ -124,8 +124,8 @@ Mac 版では 17GB のモデルを2回落としました。載るかを確かめ
 
 | モデル | KV / トークン | 重み（bf16） |
 |---|---|---|
-| Qwen3-Swallow-8B | **144 KB** | 16 GB |
-| Qwen3-Swallow-30B-A3B | **96 KB** | 60 GB |
+| Qwen3-Swallow-8B | **144 KB** | 15.3 GB |
+| Qwen3-Swallow-30B-A3B | **96 KB** | 56.9 GB |
 
 **8B のほうが 30B より KV が大きい。** GQA のグループ数と層数で決まるので、
 パラメータ数に比例しません。バッチサイズを決めるのは重みではなく KV です。
@@ -135,14 +135,14 @@ Mac 版では 17GB のモデルを2回落としました。載るかを確かめ
 
 | 段 | 構成 | 結果 |
 |---|---|---|
-| 1 | transformers + AWQ / 8B | `tokyotech-llm/...-AWQ-INT4` は**読めるのに壊れている**（後述） |
-| 1 | transformers + AWQ / **32B** | **通った**。バッチ 64 で **270 tok/s** |
-| 2 | llama-cpp-python + GGUF Q4_K_M / 8B | 通った。逐次で **194 tok/s**（バッチAPIが無い） |
+| 1 | transformers + AWQ / 8B（`tokyotech-llm/...-AWQ-INT4`） | **読めるのに壊れている**（後述）。ここで一番時間を使った |
+| 1 | transformers + AWQ / 8B（`Qwen/Qwen3-8B-AWQ`） | 通った。バッチ 2 で 19.5 tok/s |
+| 1 | transformers + AWQ / **32B**（`Qwen/Qwen2.5-32B-Instruct-AWQ`） | **通った**。バッチ 8 で 43.2 / 24 で 124.3 / **64 で 270.3 tok/s** |
+| 2 | llama-cpp-python + GGUF Q4_K_M / 8B | 通った。**194.2 tok/s**（バッチAPIが無いので逐次） |
 | 3 | bitsandbytes NF4 | 1段目が通ったので未実施 |
 
-- 8B GGUF (Q4_K_M) / 逐次 — 194 tok/s
-- 32B AWQ / バッチ 8 — 43 tok/s
-- 32B AWQ / バッチ 64 — **270 tok/s**
+同じ 8B でも、AWQ を作った道具が違えば結果が違います。**「AWQ かどうか」ではなく
+「誰が量子化したか」を見る**必要があります。
 
 `Llama` クラスにはバッチ生成がありません。1本ずつしか流せないので、
 **まとめて大量に作るなら AWQ + 大きいバッチ、1本ずつ速く返すなら GGUF** です。
@@ -206,7 +206,9 @@ python data\gal\generate.py --stage pairs --target 12000 --batch-size 32
 python data\gal\generate.py --stage build
 
 # 検査を通った会話をコーパスにする（--no-hf で公開データを混ぜない）
-python data\prepare.py --no-hf --out data\corpus_gal.txt
+# --min-char-freq 1 は必須。既定の 10 だと低頻度の漢字を含む会話まで落ちて
+# 6,879 会話が 5,343 会話に減る（生成側の検査で文字種は見てあるため不要）
+python data\prepare.py --no-hf --min-char-freq 1 --out data\corpus_gal.txt
 ```
 
 ここが設計の要です。話題の語彙まで人間が用意すると、**そこが多様性の上限になります**。
@@ -242,6 +244,8 @@ python data\prepare.py --no-hf --out data\corpus_gal.txt
 | 返答の重複 | 25 |
 | 返答が長い | 6 |
 | 敬語 | 3 |
+| 同じ文字の連続 | 1 |
+| ユーザー発言の重複 | 1 |
 
 「関西弁などの方言にしない」と禁止しても、機嫌の指定（「腹をすかせている」など）と
 噛み合うと出てきます。**指示を強めるより、後段で機械的に落とすほうが確実でした。**
@@ -282,8 +286,11 @@ lr 1e-2 の「、てが、」は7文字で終わるので**打ち切りも繰り
 （崩れの量だけが 6.21 と反応）。逆に 0% 混合の 90 文字の暴走は、
 崩れの量では -4.6（良好）と出ます。片方だけで判定すると、どちらかを見逃します。
 
-そして**再現性の幅を先に測ります**。同じ設定を2回回すとギャル度は ±0.04、
-崩れの量は ±0.03 動きました。**0.05 未満の差は読みません。**
+そして**再現性の幅を先に測ります**。同じ設定を2回回した実測は、崩れていない側
+（会話 2,000 / 100% / 24周 / lr 5e-4）でギャル度 0.87 と 0.87、崩れ +0.002 と
+-0.015（差 0.017）。崩れている側（lr 2e-3）は同じ設定でもギャル度 0.74 と 0.63、
+崩れ +1.68 と +1.24 まで動きます。
+**0.05 未満の差は読まず、崩れた後の値は順位付けに使いません。**
 設問 20 問 × シード5本 = 標本 100 本での値です（`--repeats 5`）。
 設問が 20 問しかないので、1本ずつだと割合の刻みが 0.05 になってしまいます。
 
@@ -304,7 +311,7 @@ python tools\boundary_sweep.py --counts 1000 1500 2000 3000 5000 --mixes 0 50 85
 |---|---|---|---|
 | ギャル語 0% | 0.04〜0.12 | 0.00〜0.05 | **0.10〜0.16** |
 | ギャル語 50% | 0.25〜0.38 | 0.01〜0.04 | 0.04〜0.11 |
-| ギャル語 85% | 0.37〜0.76 | 0.00〜0.03 | 0.05〜0.08 |
+| ギャル語 85% | 0.37〜0.76 | 0.00〜0.03 | 0.06〜0.08 |
 | **ギャル語 100%** | **0.78〜0.95** | **0.00** | **0.00〜0.01** |
 
 **いちばん崩れなかったのがギャル語 100% です。** 理由は返答の長さでした。
@@ -339,11 +346,11 @@ python tools\boundary_sweep.py --counts 2000 --mixes 100 --epochs 24 --lr 1e-4 3
 
 | 学習率 | ギャル度 | 崩れ | 返答例 |
 |---|---|---|---|
-| 1e-4 | 0.76 | -0.55 | うち、みんなで旅行費用出した？ |
-| 3e-4 | 0.71 | -0.28 | うーん、でも食事にならケイヤ… |
-| **5e-4** | **0.87** | **+0.00** | うーん、でもまずは食事に連れてるのもありだね |
-| 1e-3 | 0.72 | **+0.74** | めてあなた…うちもいいね、 |
-| 3e-3 | 0.23 | **+3.63** | 、てがないのう |
+| 1e-4 | 0.76 | -0.55 | うち、みんなで旅行費やしたの？ |
+| 3e-4 | 0.71 | -0.28 | うち、お腹すいた… |
+| **5e-4** | **0.87** | **+0.00** | うーん、うちも眠くて…でもないでしとこ探すぐばいいかw |
+| 1e-3 | 0.72 | **+0.74** | めてあないら…うちもいいよね。 |
+| 3e-3 | 0.23 | **+3.63** | 、てがないらのう |
 | 1e-2 | 0.23 | **+6.21** | 、てが、 |
 
 **崩れが 0 を横切る点と、ギャル度が最大になる点が一致します。**

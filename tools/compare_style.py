@@ -20,6 +20,7 @@ sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "tools"))
 
 from reply_metrics import generate_replies, load_prompts, style_scores  # noqa: E402
+
 from src.generate import load_bundle  # noqa: E402
 
 
